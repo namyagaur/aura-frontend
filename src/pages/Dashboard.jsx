@@ -4,8 +4,11 @@ import TaskListItem from "../components/TaskListItem";
 import FocusTimer from "../components/FocusTimer";
 import MoodTracker from "../components/MoodTracker";
 import { FiCheckCircle, FiAward, FiPlus, FiCpu, FiTarget } from "react-icons/fi";
-
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 export default function Dashboard() {
+  const { user } = useContext(AuthContext);
+
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [priority, setPriority] = useState("medium");
@@ -14,6 +17,10 @@ export default function Dashboard() {
   useEffect(() => {
     fetchTasks();
   }, []);
+  useEffect(() => {
+  console.log("Logged in user:", user);
+}, [user]);
+
 
   const fetchTasks = async () => {
     try {
@@ -80,7 +87,8 @@ export default function Dashboard() {
 
   return (
     <main>
-      <h2>Welcome back, Namya 👋</h2>
+      <h2>Welcome back, {user?.name || "User"} 👋</h2>
+
       <p style={{ color: "var(--text-light)", marginBottom: "1.5rem" }}>
         Here’s your productivity snapshot for today
       </p>
